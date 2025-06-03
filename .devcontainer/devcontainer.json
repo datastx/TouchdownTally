@@ -1,0 +1,78 @@
+{
+	"name": "TouchdownTally Dev Environment",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+	"workspaceFolder": "/workspace",
+	"workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
+
+	// Features to add to the dev container
+	"features": {
+		"ghcr.io/devcontainers/features/git:1": {},
+		"ghcr.io/devcontainers/features/github-cli:1": {},
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {
+			"moby": true,
+			"installDockerBuildx": true,
+			"version": "latest",
+			"dockerComposeVersion": "v2"
+		},
+		"ghcr.io/devcontainers/features/node:1": {
+			"nodeGypDependencies": true,
+			"version": "18"
+		}
+	},
+
+	// Configure tool-specific properties
+	"customizations": {
+		"vscode": {
+			// Set *default* container specific settings.json values on container create
+			"settings": {
+				"go.toolsManagement.checkForUpdates": "local",
+				"go.useLanguageServer": true,
+				"go.gopath": "/go",
+				"go.goroot": "/usr/local/go",
+				"go.lintTool": "golangci-lint",
+				"go.formatTool": "goimports",
+				"editor.formatOnSave": true,
+				"editor.codeActionsOnSave": {
+					"source.organizeImports": "explicit"
+				},
+				"eslint.workingDirectories": ["frontend"],
+				"typescript.preferences.importModuleSpecifier": "relative"
+			},
+
+			// Add the IDs of extensions you want installed when the container is created
+			"extensions": [
+				"golang.Go",
+				"ms-vscode.vscode-json",
+				"esbenp.prettier-vscode",
+				"bradlc.vscode-tailwindcss",
+				"Vue.volar",
+				"ms-vscode.vscode-typescript-next",
+				"ms-vscode-remote.remote-containers",
+				"GitHub.copilot",
+				"ms-python.python",
+				"mtxr.sqltools",
+				"mtxr.sqltools-driver-pg",
+				"humao.rest-client",
+				"redhat.vscode-yaml",
+				"ms-vscode.makefile-tools"
+			]
+		}
+	},
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally
+	"forwardPorts": [
+		8080,  // Go backend
+		3000,  // Vue.js frontend
+		5432,  // PostgreSQL
+		6379,  // Redis
+		8081   // Adminer
+	],
+
+	// Use 'postCreateCommand' to run commands after the container is created
+	"postCreateCommand": "echo 'Container ready! Run make quickstart to get started.'",
+
+	// Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root
+	"remoteUser": "vscode"
+}

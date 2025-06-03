@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ..:/workspace:cached
+    command: sleep infinity
+    environment:
+      - CGO_ENABLED=0
+      - GO111MODULE=on
+      - GOOS=linux
+      - GOARCH=amd64
+    depends_on:
+      - postgres
+      - redis
+    ports:
+      - "8080:8080"
+      - "3000:3000"
+
+  postgres:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: touchdown_dev
+      POSTGRES_USER: touchdown_user
+      POSTGRES_DB: touchdown_tally
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./init-db:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: redis-server --requirepass touchdown_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+
+  adminer:
+    image: adminer:latest
+    restart: unless-stopped
+    ports:
+      - "8081:8080"
+    environment:
+      - ADMINER_DEFAULT_SERVER=postgres
+    depends_on:
+      - postgres
+
+volumes:
+  postgres-data:
+  redis-data:

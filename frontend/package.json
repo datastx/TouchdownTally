@@ -1,0 +1,25 @@
+{
+  "name": "touchdown-tally-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0 --port 3000",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0 --port 3000",
+    "lint": "eslint src --ext .vue,.js,.ts",
+    "format": "prettier --write src"
+  },
+  "dependencies": {
+    "@mdi/font": "^7.4.47",
+    "@vueuse/core": "^13.3.0",
+    "axios": "^1.9.0",
+    "vue": "^3.5.13",
+    "vuetify": "^3.8.7"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.6.2",
+    "vite": "^4.5.5",
+    "vite-plugin-vue-devtools": "^7.7.2"
+  }
+}
